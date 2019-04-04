@@ -14,7 +14,7 @@ function spawn(x,y,h,w,speed){
 }
 
 function createSpawn(){
-    for(x=0;x<100;x++){
+    for(x=0;x<20;x++){
         var newSpawn = new spawn();
         spawnList.push(newSpawn);
     }
@@ -41,6 +41,10 @@ var game = (function(){
 
     function launchSpawns(obj){
         //console.log(obj);
+        // reload spaws to have continious game.
+        if (obj.y > canvas.height) {
+            obj.y=0;
+        }
         ctx.fillStyle=obj.fill;
 
         ctx.clearRect(
@@ -58,7 +62,11 @@ var game = (function(){
         );
       }
 
-    
+    // add timer to repeat the spawned object
+//    function checklocation(obj){
+//
+//    }
+
     return {
         //2. Draw the player to the canvas
         player: function(){
