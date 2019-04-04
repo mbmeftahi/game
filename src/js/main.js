@@ -1,3 +1,27 @@
+//
+//
+//
+//
+var spawnList = [];
+
+function spawn(x,y,h,w,speed){
+    this.x = Math.floor(Math.random() * 800);
+    this.y = Math.floor(Math.random() * - 2000);
+    this.h = 10;
+    this.w = 10;
+    this.speed = 3//Math.floor(Math.random() * 5) + 1;
+    this.fill = '#00FF00';
+}
+
+function createSpawn(){
+    for(x=0;x<100;x++){
+        var newSpawn = new spawn();
+        spawnList.push(newSpawn);
+    }
+}
+
+createSpawn();
+
 var game = (function(){
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -12,8 +36,35 @@ var game = (function(){
         fill: '#fff',
         stroke: '00FF00',
         dir: 'right',
-        speed: 5
+        speed: 2
     }
+
+    function launchSpawns(obj){
+        //console.log(obj);
+        if obj.y > canvas.height) {
+            obj.y=0;
+        }
+        ctx.fillStyle=obj.fill;
+
+        ctx.clearRect(
+            obj.x-1,
+            obj.y-obj.speed,
+            obj.w+2,
+            obj.h+2
+        );
+    
+        ctx.fillRect(
+            obj.x,
+            obj.y = (obj.y + obj.speed),
+            obj.w,
+            obj.h
+        );
+      }
+
+    // add timer to repeat the spawned object
+//    function checklocation(obj){
+//
+//    }
 
     return {
         //2. Draw the player to the canvas
@@ -82,6 +133,9 @@ var game = (function(){
         //3. Redraw the player every time a frame is executed
         animate: function(){
             this.player();
+            for(var x=0;x<spawnList.length; x++){  
+                launchSpawns(spawnList[x]);
+            } 
             window.requestAnimationFrame(this.animate.bind(this));
         },
 
